@@ -13,4 +13,11 @@ export default defineSchema({
     .searchIndex("search_username", {
       searchField: "username",
     }),
+  posts: defineTable({
+    authorId: v.id("users"),
+    language: v.string(),
+    code: v.optional(v.string()),
+    input: v.optional(v.string()),
+    title: v.string(),
+  }),
 });
