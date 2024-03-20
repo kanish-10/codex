@@ -45,10 +45,6 @@ const CreateCodeButton = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      language: "",
-    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -71,11 +67,13 @@ const CreateCodeButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create CodeX</Button>
+        <Button variant="outline" className="text-black">
+          Create CodeX
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>CodeX Post</DialogTitle>
+          <DialogTitle className="text-black">CodeX Post</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -84,9 +82,13 @@ const CreateCodeButton = () => {
               name="title"
               render={({ field }: { field: any }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Title</FormLabel>
+                  <FormLabel className="font-bold text-black">Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Title for your post" {...field} />
+                    <Input
+                      className="text-black"
+                      placeholder="Title for your post"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,14 +99,19 @@ const CreateCodeButton = () => {
               name="language"
               render={({ field }: { field: any }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Language</FormLabel>
+                  <FormLabel className="font-bold text-black">
+                    Language
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="text-black placeholder:text-black">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select your prefered language" />
+                        <SelectValue
+                          placeholder="Select your language"
+                          className={"placeholder:!text-black"}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

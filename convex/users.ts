@@ -1,4 +1,5 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+import { v } from "convex/values";
 
 /**
  * Insert or update the user in a Convex table then return the document's ID.
@@ -49,5 +50,14 @@ export const store = mutation({
       email: identity.email!,
       clerkId: identity.subject,
     });
+  },
+});
+
+export const find = query({
+  args: {
+    id: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
   },
 });

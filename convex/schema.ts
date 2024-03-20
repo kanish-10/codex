@@ -19,5 +19,7 @@ export default defineSchema({
     code: v.optional(v.string()),
     input: v.optional(v.string()),
     title: v.string(),
+  }).searchIndex("author", {
+    searchField: "authorId",
   }),
 });

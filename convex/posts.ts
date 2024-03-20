@@ -30,10 +30,6 @@ export const find = query({
     postId: v.id("posts"),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) throw new Error("Not Authenticated");
-
     return await ctx.db.get(args.postId);
   },
 });
@@ -53,5 +49,25 @@ export const save = mutation({
     if (!post) throw new Error("Post doesn't exits");
 
     return await ctx.db.patch(post._id, { code: args.code, input: args.input });
+  },
+});
+
+export const findAll = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const posts = await ctx.db.query("posts").order("desc").collect();
+    return posts;
+  },
+});
+
+export const findByAuthor = query({
+  args: { authorId: v.id("users") },
+  handler: async (ctx, args) => {
+    const posts = await ctx.db
+      .query("posts")
+      .filter((q) => q.eq(q.field("authorId"), args.authorId))
+      .order("desc")
+      .collect();
+    return posts;
   },
 });

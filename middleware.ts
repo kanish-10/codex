@@ -9,7 +9,7 @@ export default authMiddleware({
   // Prevent the specified routes from accessing
   // authentication information:
   // ignoredRoutes: ['/no-auth-in-this-route'],
-  publicRoutes: ["/", "/api/judge0"],
+  publicRoutes: ["/", "/api/judge0", "/home", "/post/:id", "/profile/:id"],
   ignoredRoutes: ["/api/judge0"],
 });
 

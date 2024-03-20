@@ -1,7 +1,7 @@
 "use client";
 
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
+import { useConvexAuth, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { Badge } from "@/components/ui/badge";
 import { javascript } from "@codemirror/lang-javascript";
@@ -16,6 +16,8 @@ import axios from "axios";
 import { langCode } from "@/constants";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import useStoreUserEffect from "@/hooks/use-store-user";
 
 interface PlaygroundProps {
   type: "post" | "playground";
@@ -24,6 +26,11 @@ interface PlaygroundProps {
 }
 
 const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
+  const { isAuthenticated } = useConvexAuth();
+  let userId = null;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  if (isAuthenticated) userId = useStoreUserEffect();
+  const router = useRouter();
   let post = null;
   if (type === "post")
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -40,10 +47,12 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
     extension = [java()];
   }
 
-  const [code, setCode] = useState<string | undefined>(post?.code);
+  const [code, setCode] = useState<string | undefined>("");
   const [output, setOutput] = useState("");
-  const [input, setInput] = useState<string | undefined>(post?.input);
+  const [input, setInput] = useState<string | undefined>("");
   const [submitting, setSubmitting] = useState(false);
+  const [readOnlyCode, setReadOnlyCode] = useState(true);
+  const [readOnlyInput, setReadOnlyInput] = useState(true);
   const { mutate, pending } = useApiMutation(api.posts.save);
 
   useEffect(() => {
@@ -51,16 +60,41 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
       setCode(post?.code);
       setInput(post?.input);
     }
-  }, [post]);
+    if (type === "post" && userId === post?.authorId) {
+      setReadOnlyCode(true);
+      setReadOnlyInput(true);
+    }
+    if (type === "post" && userId !== post?.authorId) {
+      setReadOnlyCode(false);
+      setReadOnlyInput(true);
+    }
+    if (type === "post" && !isAuthenticated) {
+      setReadOnlyCode(false);
+      setReadOnlyInput(false);
+    }
+
+    if (type === "post" && post === null) {
+      toast({ variant: "destructive", title: "Post doesn't exist" });
+      return router.push("/");
+    }
+  }, [isAuthenticated, post, type, userId]);
 
   const handleButtonClick = async () => {
     setSubmitting(true);
     try {
       // @ts-ignore
-      const snippet = { code, input, langCode: langCode[post?.language] };
+      const snippet = {
+        code,
+        input,
+        // @ts-ignore
+        langCode: langCode[post?.language] || langCode[language],
+      };
+      console.log(snippet);
       const response = await axios.post("/api/judge0", snippet);
       console.log(response);
-      setOutput(response.data.result.stdout);
+      if (response.data.result.stdout === null) {
+        setOutput(response.data.result.compile_output);
+      } else setOutput(response.data.result.stdout);
     } catch (e) {
       console.log(e);
     } finally {
@@ -72,17 +106,17 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
     try {
       await mutate({
         postId: id as Id<"posts">,
-        code,
-        input,
+        code: code || "",
+        input: input || "",
       });
       toast({ title: "Saved successfully" });
     } catch (e) {
-      toast({ variant: "destructive", title: "Something went wrong" });
+      toast({ variant: "destructive", title: `Something went wrong: ${e}` });
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-black p-10">
+    <div className="flex min-h-screen flex-col bg-black">
       <div className=" flex flex-col-reverse items-start justify-between md:flex-row md:justify-between">
         <p className="m-2 text-3xl font-bold text-white">
           {post?.title || "Playground"}
@@ -94,7 +128,7 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
           <div className="mb-5 flex flex-row items-center justify-between">
             <p className="text-sm text-white">Code Below</p>
             <div className="">
-              {type === "post" && (
+              {userId === post?.authorId && (
                 <Button
                   className="mx-2 bg-green-600 text-white"
                   size="sm"
@@ -130,6 +164,7 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
               closeBrackets: true,
               autocompletion: true,
             }}
+            editable={readOnlyCode}
           />
         </div>
         <div className="flex w-full flex-col md:w-1/2">
@@ -145,6 +180,7 @@ const Playground = ({ type = "playground", id, language }: PlaygroundProps) => {
                 lineNumbers: true,
               }}
               className="my-5 h-full bg-[#282C34] text-white"
+              editable={readOnlyInput}
             />
           </div>
           <div className="h-1/2 py-5 md:my-5">
