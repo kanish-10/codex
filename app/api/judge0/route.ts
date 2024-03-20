@@ -16,8 +16,7 @@ export async function POST(request: NextRequest) {
       {
         headers: {
           "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-          "x-rapidapi-key":
-            "fd00590719msh316d49305df1073p147afcjsne8a472dad707",
+          "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPID_API_KEY!,
           "content-type": "application/json",
           accept: "application/json",
         },
@@ -35,8 +34,7 @@ export async function POST(request: NextRequest) {
         {
           headers: {
             "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-            "x-rapidapi-key":
-              "fd00590719msh316d49305df1073p147afcjsne8a472dad707",
+            "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPID_API_KEY!,
           },
         },
       );
