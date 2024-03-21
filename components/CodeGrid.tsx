@@ -22,7 +22,7 @@ const CodeGrid = ({ type, id }: CodeGridProps) => {
   }
   return (
     <>
-      {!posts || posts?.length ? (
+      {!posts || posts?.length === 0 ? (
         <div className="flex h-[500px] flex-col items-center justify-center">
           <>
             <p>No Post made yet.</p>
