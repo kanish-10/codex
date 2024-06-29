@@ -1,152 +1,120 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { Authenticated, Unauthenticated } from "convex/react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { Authenticated, Unauthenticated } from "convex/react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { NavLinks, PlaygroundLink } from "@/constants";
-import Link from "next/link";
-import React from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
+  const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
+  const togglePlayground = () => setIsPlaygroundOpen(!isPlaygroundOpen);
+
   return (
-    <div className="flex flex-row items-center justify-center gap-4 md:hidden">
-      <Authenticated>
-        <UserButton afterSignOutUrl="/home" />
-      </Authenticated>
-      <Unauthenticated>
-        <SignInButton mode="modal" />
-      </Unauthenticated>
+    <div className="md:hidden">
       <Sheet>
         <SheetTrigger asChild>
-          <Image src="/hamburger.svg" alt="menu" height={50} width={50} />
-        </SheetTrigger>
-        <SheetContent className="bg-black">
-          <SheetHeader>
-            <Image src="/logo.png" alt="logo" height={100} width={100} />
-          </SheetHeader>
-          <div className="mt-32 flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center">
             <Authenticated>
-              <NavigationMenu className="flex flex-col items-center justify-center">
-                <NavigationMenuList className="flex flex-col items-center justify-center">
-                  {NavLinks.map((link) => {
-                    if (link.title === "Profile")
-                      link.path = `/profile/${userId}`;
-                    if (link.title !== "Playground") {
-                      return (
-                        <SheetClose key={link.title}>
-                          <NavigationMenuItem key={link.title}>
-                            <Link href={link.path} legacyBehavior passHref>
-                              <NavigationMenuLink
-                                className={`${navigationMenuTriggerStyle()} bg-black text-white`}
-                              >
-                                {link.title}
-                              </NavigationMenuLink>
-                            </Link>
-                          </NavigationMenuItem>
-                        </SheetClose>
-                      );
-                    } else {
-                      return (
-                        <NavigationMenuItem
-                          key={link.title}
-                          className="flex flex-col"
-                        >
-                          <NavigationMenuTrigger className="bg-black text-white">
-                            {link.title}
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <ul className="mx-4 my-1 flex h-[130px] flex-col gap-1.5">
-                              {PlaygroundLink.map((component) => (
-                                <SheetClose key={component.title}>
-                                  <Link className="mt-1" href={component.path}>
-                                    {component.title}
-                                  </Link>
-                                  <hr />
-                                </SheetClose>
-                              ))}
-                            </ul>
-                          </NavigationMenuContent>
-                        </NavigationMenuItem>
-                      );
-                    }
-                  })}
-                </NavigationMenuList>
-              </NavigationMenu>
+              <UserButton afterSignOutUrl="/" />
             </Authenticated>
             <Unauthenticated>
-              <NavigationMenu className="flex flex-col items-center justify-center">
-                <NavigationMenuList className="flex flex-col items-center justify-center">
-                  {NavLinks.map((link) => {
-                    if (link.title === "Profile") {
-                      return (
-                        <NavigationMenuItem key={link.title}>
-                          <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()} bg-black text-white`}
-                          >
-                            <SignInButton mode="modal" />
-                          </NavigationMenuLink>
-                        </NavigationMenuItem>
-                      );
-                    }
-                    if (link.title !== "Playground") {
-                      return (
-                        <NavigationMenuItem key={link.title}>
-                          <Link href={link.path} legacyBehavior passHref>
-                            <NavigationMenuLink
-                              className={`${navigationMenuTriggerStyle()} bg-black text-white`}
-                            >
-                              {link.title}
-                            </NavigationMenuLink>
-                          </Link>
-                        </NavigationMenuItem>
-                      );
-                    } else {
-                      return (
-                        <NavigationMenuItem
-                          key={link.title}
-                          className="flex flex-col"
-                        >
-                          <NavigationMenuTrigger className="bg-black text-white">
-                            {link.title}
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <ul className="mx-4 mt-1 flex flex-col gap-1.5">
-                              {PlaygroundLink.map((component) => (
-                                <>
-                                  <Link
-                                    className="mt-1"
-                                    key={component.title}
-                                    href={component.path}
-                                  >
-                                    {component.title}
-                                  </Link>
-                                  <hr />
-                                </>
-                              ))}
-                            </ul>
-                          </NavigationMenuContent>
-                        </NavigationMenuItem>
-                      );
-                    }
-                  })}
-                </NavigationMenuList>
-              </NavigationMenu>
+              <SignInButton mode="modal" />
             </Unauthenticated>
+            <button className="p-2">
+              <Image src="/hamburger.svg" alt="menu" width={24} height={24} />
+            </button>
+          </div>
+        </SheetTrigger>
+        <SheetContent
+          side="right"
+          className="w-[300px] border-l-0 bg-black sm:w-[400px]"
+        >
+          <div className="flex h-full flex-col text-white">
+            <div className="mb-8 flex items-center justify-between">
+              <Image src="/logo.png" alt="logo" width={40} height={40} />
+            </div>
+
+            <nav className="grow">
+              <ul className="flex flex-col space-y-4">
+                {NavLinks.map((link) => {
+                  if (link.title === "Playground") {
+                    return (
+                      <div key={link.title} className="my-0">
+                        <button
+                          onClick={togglePlayground}
+                          className="ml-14 flex items-center justify-center rounded px-4 py-2 text-center text-lg transition-colors hover:bg-gray-800"
+                        >
+                          <p className="">{link.title} </p>
+                          {isPlaygroundOpen ? <ChevronUp /> : <ChevronDown />}
+                        </button>
+                        {isPlaygroundOpen && (
+                          <div className="mt-2 space-y-2 text-center">
+                            <SheetClose>
+                              {PlaygroundLink.map((subLink) => (
+                                <Link
+                                  key={subLink.title}
+                                  href={subLink.path}
+                                  className="block rounded px-4 py-1 transition-colors hover:bg-gray-800"
+                                >
+                                  {subLink.title}
+                                </Link>
+                              ))}
+                            </SheetClose>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                  if (link.title === "Profile") {
+                    return (
+                      <>
+                        <Authenticated>
+                          <SheetClose>
+                            <li>
+                              <Link
+                                href={
+                                  link.title === "Profile"
+                                    ? `/profile/${userId}`
+                                    : link.path
+                                }
+                                className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
+                              >
+                                {link.title}
+                              </Link>
+                            </li>
+                          </SheetClose>
+                        </Authenticated>
+                        <Unauthenticated>
+                          <SignInButton mode="modal" />
+                        </Unauthenticated>
+                      </>
+                    );
+                  }
+                  return (
+                    <SheetClose key={link.title}>
+                      <li>
+                        <Link
+                          href={link.path}
+                          className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
+                        >
+                          {link.title}
+                        </Link>
+                      </li>
+                    </SheetClose>
+                  );
+                })}
+              </ul>
+            </nav>
           </div>
         </SheetContent>
       </Sheet>

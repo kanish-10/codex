@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CodeX
 
-## Getting Started
+CodeX is a collaborative platform for running and posting code snippets. Users can share their code snippets with the
+community and use playgrounds to run code in various languages such as Java, Python, JavaScript, and C++.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Collaborative Code Sharing
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Post and Share Code Snippets**: Users can easily post their code snippets, making them visible to the entire
+  community. This feature fosters collaboration, learning, and sharing of best practices.
+- **View**: Engage with the community by viewing on other's code snippets.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Interactive Playgrounds
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Multi-Language Support**: Run code in various languages such as Java, Python, JavaScript, and C++. This is
+  especially useful for learning new languages and comparing code behavior across different languages.
+- **Real-Time Execution**: Execute code in real-time using the integrated Judge0 API, providing instant feedback and
+  results.
 
-## Learn More
+### User Management and Authentication
 
-To learn more about Next.js, take a look at the following resources:
+- **Secure Authentication**: Clerk provides robust user authentication, ensuring that only authorized users can post and
+  run code snippets.
+- **User Profiles**: Each user has a profile where they can manage their posted snippets and view their activity.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Advanced Code Editing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **CodeMirror Integration**: Enjoy a powerful and versatile code editing experience with CodeMirror. Features like
+  syntax highlighting, auto-completion, and error detection enhance the coding experience.
 
-## Deploy on Vercel
+### Reliable Data Management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Convex Database**: All data, including user profiles, code snippets, and comments, are securely stored and managed
+  using Convex, ensuring data integrity and reliability.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technologies Used
+
+- **Next.js**: React framework for server-side rendering and generating static websites.
+- **Judge0**: Open-source API to execute code in various programming languages.
+- **Convex**: Backend-as-a-service for managing your database.
+- **CodeMirror**: Versatile code editor implemented in JavaScript.
+- **Clerk**: User authentication and management.
+
+## Installation and Usage
+
+### Prerequisites
+
+Ensure you have the following installed on your local development environment:
+
+- Node.js (v14.x or later)
+- npm (v6.x or later)
+
+### Installation
+
+1. **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/kanish-10/codex
+    cd CodeX
+    ```
+
+2. **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+3. **Log in to Convex database with CLI:**
+
+    ```bash
+    npx convex login
+    ```
+
+4. **Set up environment variables:**
+
+   Create a `.env.local` file in the root directory and add the following environment variables:
+
+    ```env
+    CONVEX_DEPLOYMENT=<your-api-key>
+    NEXT_PUBLIC_CONVEX_URL=<your-api-key>
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your-api-key>
+    CLERK_SECRET_KEY=<your-api-key>
+    NEXT_PUBLIC_RAPID_API_KEY=<your-api-key>
+    ```
+
+5. **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+6. **Run Convex development server:**
+
+    ```bash
+    npx convex dev
+    ```
+
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Made By
+
+[Kanish Chheda](https://github.com/kanish-10)

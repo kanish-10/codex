@@ -64,30 +64,25 @@ const Navbar = () => {
                     );
                   } else {
                     return (
-                      <NavigationMenuItem
-                        key={link.title}
-                        className="flex flex-col"
-                      >
-                        <NavigationMenuTrigger className="bg-black text-white">
-                          {link.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul className="mx-4 mt-1 flex flex-col gap-1.5">
-                            {PlaygroundLink.map((component) => (
-                              <>
-                                <Link
-                                  className="mt-1"
-                                  key={component.title}
-                                  href={component.path}
-                                >
-                                  {component.title}
-                                </Link>
-                                <hr />
-                              </>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
+                        <NavigationMenuItem key={link.title} className="relative">
+                          <NavigationMenuTrigger className="bg-black text-white">
+                            {link.title}
+                          </NavigationMenuTrigger>
+                          <NavigationMenuContent className="absolute left-0 top-0 z-50">
+                            <ul className="min-w-[200px] rounded-md bg-black px-4 py-2 text-white shadow-lg">
+                              {PlaygroundLink.map((component) => (
+                                  <li key={component.title} className="py-1">
+                                    <Link
+                                        className="block rounded px-2 py-1 transition-colors hover:bg-gray-700"
+                                        href={component.path}
+                                    >
+                                      {component.title}
+                                    </Link>
+                                  </li>
+                              ))}
+                            </ul>
+                          </NavigationMenuContent>
+                        </NavigationMenuItem>
                     );
                   }
                 })}
@@ -124,30 +119,25 @@ const Navbar = () => {
                     );
                   } else {
                     return (
-                      <NavigationMenuItem
-                        key={link.title}
-                        className="flex flex-col"
-                      >
-                        <NavigationMenuTrigger className="bg-black text-white">
-                          {link.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul className="mx-4 mt-1 flex flex-col gap-1.5">
-                            {PlaygroundLink.map((component) => (
-                              <>
-                                <Link
-                                  className="mt-1"
-                                  key={component.title}
-                                  href={component.path}
-                                >
-                                  {component.title}
-                                </Link>
-                                <hr />
-                              </>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
+                        <NavigationMenuItem key={link.title} className="relative">
+                          <NavigationMenuTrigger className="bg-black text-white">
+                            {link.title}
+                          </NavigationMenuTrigger>
+                          <NavigationMenuContent className="absolute left-0 top-0 z-50">
+                            <ul className="min-w-[200px] rounded-md bg-black px-4 py-2 text-white shadow-lg">
+                              {PlaygroundLink.map((component) => (
+                                  <li key={component.title} className="py-1">
+                                    <Link
+                                        className="block rounded px-2 py-1 transition-colors hover:bg-gray-700"
+                                        href={component.path}
+                                    >
+                                      {component.title}
+                                    </Link>
+                                  </li>
+                              ))}
+                            </ul>
+                          </NavigationMenuContent>
+                        </NavigationMenuItem>
                     );
                   }
                 })}
