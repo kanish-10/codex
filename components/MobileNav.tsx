@@ -20,16 +20,20 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
   const togglePlayground = () => setIsPlaygroundOpen(!isPlaygroundOpen);
 
   return (
-    <div className="md:hidden">
+    <div className="flex items-center justify-center md:hidden">
       <Sheet>
+        <Authenticated>
+          <SheetClose>
+            <UserButton afterSignOutUrl="/" />
+          </SheetClose>
+        </Authenticated>
+        <Unauthenticated>
+          <SheetClose>
+            <SignInButton mode="modal" />
+          </SheetClose>
+        </Unauthenticated>
         <SheetTrigger asChild>
           <div className="flex items-center justify-center">
-            <Authenticated>
-              <UserButton afterSignOutUrl="/" />
-            </Authenticated>
-            <Unauthenticated>
-              <SignInButton mode="modal" />
-            </Unauthenticated>
             <button className="p-2">
               <Image src="/hamburger.svg" alt="menu" width={24} height={24} />
             </button>
@@ -95,7 +99,9 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                           </SheetClose>
                         </Authenticated>
                         <Unauthenticated>
-                          <SignInButton mode="modal" />
+                          <SheetClose>
+                            <SignInButton mode="modal" />
+                          </SheetClose>
                         </Unauthenticated>
                       </>
                     );
