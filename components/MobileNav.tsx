@@ -56,7 +56,7 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                       <div key={link.title} className="my-0">
                         <button
                           onClick={togglePlayground}
-                          className="ml-14 flex items-center justify-center rounded px-4 py-2 text-left text-lg transition-colors hover:bg-gray-800"
+                          className=" flex items-center justify-center rounded px-4 py-2 text-left text-lg transition-colors hover:bg-gray-800"
                         >
                           <p className="">{link.title} </p>
                           {isPlaygroundOpen ? <ChevronUp /> : <ChevronDown />}
@@ -99,7 +99,7 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                           </li>
                         </Authenticated>
                         <Unauthenticated>
-                          <SheetClose>
+                          <SheetClose className="block rounded px-4 py-2 text-left text-lg transition-colors hover:bg-gray-800">
                             <SignInButton mode="modal" />
                           </SheetClose>
                         </Unauthenticated>
