@@ -62,13 +62,13 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                           {isPlaygroundOpen ? <ChevronUp /> : <ChevronDown />}
                         </button>
                         {isPlaygroundOpen && (
-                          <div className="mt-2 flex flex-col space-y-2 text-left">
+                          <div className="mt-2 flex flex-col space-y-2">
                             {PlaygroundLink.map((subLink) => (
                               <SheetClose key={subLink.title}>
                                 <Link
                                   key={subLink.title}
                                   href={subLink.path}
-                                  className="block rounded px-4 py-1 transition-colors hover:bg-gray-800"
+                                  className="block rounded px-4 py-1 text-left transition-colors  hover:bg-gray-800"
                                 >
                                   {subLink.title}
                                 </Link>
