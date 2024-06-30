@@ -63,8 +63,8 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                         </button>
                         {isPlaygroundOpen && (
                           <div className="mt-2 space-y-2 text-center">
-                            <SheetClose>
-                              {PlaygroundLink.map((subLink) => (
+                            {PlaygroundLink.map((subLink) => (
+                              <SheetClose key={subLink.title}>
                                 <Link
                                   key={subLink.title}
                                   href={subLink.path}
@@ -72,8 +72,8 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                                 >
                                   {subLink.title}
                                 </Link>
-                              ))}
-                            </SheetClose>
+                              </SheetClose>
+                            ))}
                           </div>
                         )}
                       </div>
@@ -83,8 +83,8 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                     return (
                       <>
                         <Authenticated>
-                          <SheetClose>
-                            <li>
+                          <li>
+                            <SheetClose>
                               <Link
                                 href={
                                   link.title === "Profile"
@@ -95,8 +95,8 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                               >
                                 {link.title}
                               </Link>
-                            </li>
-                          </SheetClose>
+                            </SheetClose>
+                          </li>
                         </Authenticated>
                         <Unauthenticated>
                           <SheetClose>
@@ -107,16 +107,16 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                     );
                   }
                   return (
-                    <SheetClose key={link.title}>
-                      <li>
+                    <li key={link.title}>
+                      <SheetClose>
                         <Link
                           href={link.path}
                           className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
                         >
                           {link.title}
                         </Link>
-                      </li>
-                    </SheetClose>
+                      </SheetClose>
+                    </li>
                   );
                 })}
               </ul>
