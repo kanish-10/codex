@@ -64,15 +64,15 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                         {isPlaygroundOpen && (
                           <div className="mt-2 flex flex-col space-y-2">
                             {PlaygroundLink.map((subLink) => (
-                              <SheetClose key={subLink.title}>
-                                <Link
-                                  key={subLink.title}
-                                  href={subLink.path}
-                                  className="block rounded px-4 py-1 text-left transition-colors  hover:bg-gray-800"
-                                >
+                              <Link
+                                key={subLink.title}
+                                href={subLink.path}
+                                className="block rounded px-4 py-1 text-left transition-colors  hover:bg-gray-800"
+                              >
+                                <SheetClose key={subLink.title}>
                                   {subLink.title}
-                                </Link>
-                              </SheetClose>
+                                </SheetClose>
+                              </Link>
                             ))}
                           </div>
                         )}
@@ -84,18 +84,16 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                       <>
                         <Authenticated>
                           <li>
-                            <SheetClose>
-                              <Link
-                                href={
-                                  link.title === "Profile"
-                                    ? `/profile/${userId}`
-                                    : link.path
-                                }
-                                className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
-                              >
-                                {link.title}
-                              </Link>
-                            </SheetClose>
+                            <Link
+                              href={
+                                link.title === "Profile"
+                                  ? `/profile/${userId}`
+                                  : link.path
+                              }
+                              className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
+                            >
+                              <SheetClose>{link.title}</SheetClose>
+                            </Link>
                           </li>
                         </Authenticated>
                         <Unauthenticated>
@@ -108,14 +106,12 @@ const MobileNav = ({ userId }: { userId: Id<"users"> | null }) => {
                   }
                   return (
                     <li key={link.title}>
-                      <SheetClose>
-                        <Link
-                          href={link.path}
-                          className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
-                        >
-                          {link.title}
-                        </Link>
-                      </SheetClose>
+                      <Link
+                        href={link.path}
+                        className="block rounded px-4 py-2 text-lg transition-colors hover:bg-gray-800"
+                      >
+                        <SheetClose>{link.title}</SheetClose>
+                      </Link>
                     </li>
                   );
                 })}
